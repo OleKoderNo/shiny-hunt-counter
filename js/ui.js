@@ -28,6 +28,10 @@ export function setupUI(rootElement) {
 
     <button id="incrementBtn">+1</button>
     <button id="resetBtn">Reset</button>
+
+		<div style="margin-top: 10px; text-align: center;">
+      <button id="openPopupBtn">Open Popup Window</button>
+    </div>
   `;
 
 	const newHuntNameInput = $("#newHuntName");
@@ -38,6 +42,7 @@ export function setupUI(rootElement) {
 	const countDisplay = $("#countDisplay");
 	const incrementBtn = $("#incrementBtn");
 	const resetBtn = $("#resetBtn");
+	const openPopupBtn = $("#openPopupBtn");
 
 	function renderHuntSelect() {
 		const hunts = getHunts();
@@ -123,6 +128,11 @@ export function setupUI(rootElement) {
 	resetBtn.addEventListener("click", () => {
 		resetCurrentHunt();
 		renderCurrentHunt();
+	});
+
+	openPopupBtn.addEventListener("click", () => {
+		// Open the small popup window that only shows the card
+		window.open("./popup.html", "shinyHuntPopup", "width=420,height=600,resizable=yes");
 	});
 
 	renderAll();
