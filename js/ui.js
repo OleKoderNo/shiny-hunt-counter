@@ -47,13 +47,32 @@ export function setupUI(rootElement) {
 
 	countDisplay.setAttribute("contenteditable", "true");
 
-	countDisplay.addEventListener("blur", () => {
-		const value = countDisplay.textContent.trim();
-		if (value === "") {
-			renderCurrentHunt();
+	countDisplay.addEventListener("keydown", (e) => {
+		const allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "Enter"];
+
+		if (allowed.includes(e.key)) {
+			if (e.key === "Enter") {
+				e.preventDefault();
+				countDisplay.blur();
+			}
 			return;
 		}
-		setCurrentHuntCount(value);
+
+		if (!/^[0-9]$/.test(e.key)) {
+			e.preventDefault();
+		}
+	});
+
+	countDisplay.addEventListener("blur", () => {
+		let value = countDisplay.textContent.trim();
+
+		if (value === "") value = "0";
+
+		value = value.replace(/\D/g, "");
+
+		const num = Number(value);
+
+		setCurrentHuntCount(num);
 		renderCurrentHunt();
 	});
 
