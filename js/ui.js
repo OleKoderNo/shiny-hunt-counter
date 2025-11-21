@@ -7,6 +7,7 @@ import {
 	setCurrentHuntId,
 	incrementCurrentHunt,
 	resetCurrentHunt,
+	setCurrentHuntCount,
 } from "./state.js";
 
 export function setupUI(rootElement) {
@@ -43,6 +44,25 @@ export function setupUI(rootElement) {
 	const incrementBtn = $("#incrementBtn");
 	const resetBtn = $("#resetBtn");
 	const openPopupBtn = $("#openPopupBtn");
+
+	countDisplay.setAttribute("contenteditable", "true");
+
+	countDisplay.addEventListener("blur", () => {
+		const value = countDisplay.textContent.trim();
+		if (value === "") {
+			renderCurrentHunt();
+			return;
+		}
+		setCurrentHuntCount(value);
+		renderCurrentHunt();
+	});
+
+	countDisplay.addEventListener("keydown", (e) => {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			countDisplay.blur();
+		}
+	});
 
 	function renderHuntSelect() {
 		const hunts = getHunts();
@@ -131,7 +151,6 @@ export function setupUI(rootElement) {
 	});
 
 	openPopupBtn.addEventListener("click", () => {
-		// Open the small popup window that only shows the card
 		window.open("./popup.html", "shinyHuntPopup", "width=420,height=600,resizable=yes");
 	});
 

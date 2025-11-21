@@ -67,3 +67,15 @@ export function resetCurrentHunt() {
 	hunt.count = 0;
 	saveHuntsToStorage(hunts, currentHuntId);
 }
+
+export function setCurrentHuntCount(count) {
+	const hunt = hunts.find((h) => h.id === currentHuntId);
+	if (!hunt) return;
+
+	const n = Number(count);
+
+	if (!Number.isFinite(n) || n < 0) return;
+
+	hunt.count = Math.floor(n);
+	saveHuntsToStorage(hunts, currentHuntId);
+}
