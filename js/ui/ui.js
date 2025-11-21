@@ -9,12 +9,21 @@ import {
 	setCurrentHuntCount,
 } from "../state.js";
 
-import { setupControllerUI, renderHuntSelect, renderCurrentHuntDisplay } from "./controller-ui.js";
+import {
+	setupControllerUI,
+	renderHuntSelect,
+	renderCurrentHuntDisplay,
+	highlightThemePalette,
+} from "./controller-ui.js";
 
 import { setupPokeballUI } from "./pokeball-ui.js";
+import { applyTheme, loadThemeId } from "../theme.js";
 
 export function setupUI(rootElement) {
 	let currentHuntId = getCurrentHunt()?.id ?? null;
+	let themeId = loadThemeId();
+
+	applyTheme(themeId);
 
 	const controller = setupControllerUI(rootElement, {
 		onAddHunt: (name) => {
@@ -47,6 +56,11 @@ export function setupUI(rootElement) {
 		onOpenPopup: () => {
 			window.open("./popup.html", "shinyHuntPopup", "width=760,height=620,resizable=yes");
 		},
+		onThemeChange: (id) => {
+			themeId = id;
+			applyTheme(themeId);
+			highlightThemePalette(controller.paletteEl, themeId);
+		},
 	});
 
 	const pokeball = setupPokeballUI(() => {
@@ -69,6 +83,7 @@ export function setupUI(rootElement) {
 		);
 
 		pokeball.setDisplay(current);
+		highlightThemePalette(controller.paletteEl, themeId);
 	}
 
 	function renderCurrentOnly(animate) {

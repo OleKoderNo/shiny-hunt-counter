@@ -1,31 +1,40 @@
 import { $ } from "../utils.js";
+import { themes } from "../theme.js";
 
 export function setupControllerUI(rootElement, callbacks) {
+	const themeButtons = Object.values(themes)
+		.map((t) => `<button class="theme-btn" data-theme="${t.id}" type="button">${t.label}</button>`)
+		.join("");
+
 	rootElement.innerHTML = `
-    <h1>Shiny Hunt Counter</h1>
+		<h1>Shiny Hunt Counter</h1>
 
-    <div>
-      <input id="newHuntName" type="text" placeholder="New hunt name">
-      <button id="addHuntBtn">Add</button>
-    </div>
+		<div id="themePalette">
+			${themeButtons}
+		</div>
 
-    <div>
-      <select id="huntSelect"></select>
-      <button id="deleteHuntBtn">Delete</button>
-    </div>
+		<div>
+			<input id="newHuntName" type="text" placeholder="New hunt name">
+			<button id="addHuntBtn">Add</button>
+		</div>
 
-    <h2 id="currentHuntTitle">No hunt selected</h2>
-    <div id="countDisplay">0</div>
+		<div>
+			<select id="huntSelect"></select>
+			<button id="deleteHuntBtn">Delete</button>
+		</div>
 
-    <div>
-      <button id="incrementBtn">+1</button>
-      <button id="resetBtn">Reset</button>
-    </div>
+		<h2 id="currentHuntTitle">No hunt selected</h2>
+		<div id="countDisplay">0</div>
+
+		<div>
+			<button id="incrementBtn">+1</button>
+			<button id="resetBtn">Reset</button>
+		</div>
 
 		<div style="margin-top: 10px; text-align: center;">
-      <button id="openPopupBtn">Open Popup Window</button>
-    </div>
-  `;
+			<button id="openPopupBtn">Open Popup Window</button>
+		</div>
+	`;
 
 	const newHuntNameInput = $("#newHuntName");
 	const addHuntBtn = $("#addHuntBtn");
@@ -36,6 +45,7 @@ export function setupControllerUI(rootElement, callbacks) {
 	const incrementBtn = $("#incrementBtn");
 	const resetBtn = $("#resetBtn");
 	const openPopupBtn = $("#openPopupBtn");
+	const paletteEl = $("#themePalette");
 
 	countDisplay.setAttribute("contenteditable", "true");
 
@@ -56,6 +66,12 @@ export function setupControllerUI(rootElement, callbacks) {
 		if (value === "") value = "0";
 		value = value.replace(/\D/g, "");
 		callbacks.onManualCount(Number(value));
+	});
+
+	paletteEl.addEventListener("click", (e) => {
+		const btn = e.target.closest(".theme-btn");
+		if (!btn) return;
+		callbacks.onThemeChange(btn.dataset.theme);
 	});
 
 	addHuntBtn.addEventListener("click", () => {
@@ -91,13 +107,13 @@ export function setupControllerUI(rootElement, callbacks) {
 	});
 
 	return {
-		newHuntNameInput,
 		huntSelect,
 		currentHuntTitle,
 		countDisplay,
 		incrementBtn,
 		resetBtn,
 		deleteHuntBtn,
+		paletteEl,
 	};
 }
 
@@ -146,4 +162,10 @@ export function renderCurrentHuntDisplay(
 	countDisplay.textContent = hunt.count;
 	incrementBtn.disabled = false;
 	resetBtn.disabled = false;
+}
+
+export function highlightThemePalette(paletteEl, themeId) {
+	Array.from(paletteEl.querySelectorAll(".theme-btn")).forEach((b) => {
+		b.classList.toggle("active", b.dataset.theme === themeId);
+	});
 }

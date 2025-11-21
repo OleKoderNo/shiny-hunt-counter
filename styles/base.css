@@ -1,5 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
+:root {
+	/* Default theme values (Poké Ball) */
+	--bg-top: #ff4d4d;
+	--bg-mid: #c90000;
+	--bg-bottom: #111111;
+
+	--accent: #ff1c1c;
+	--accent-hover: #ff4b4b;
+
+	--reset: #ffcd38;
+	--reset-hover: #ffd95e;
+
+	--ball-top: #e53935;
+	--ball-bottom: #f5f5f5;
+	--ball-midline: #111111;
+	--ball-button: #f5f5f5;
+	--ball-button-inner: #dcdcdc;
+}
+
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -11,7 +30,12 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: radial-gradient(circle at top, #ff4d4d 0, #c90000 35%, #111 100%);
+	background: radial-gradient(
+		circle at top,
+		var(--bg-top) 0,
+		var(--bg-mid) 35%,
+		var(--bg-bottom) 100%
+	);
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	color: #111;
 }
