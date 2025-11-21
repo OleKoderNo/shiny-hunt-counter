@@ -1,9 +1,8 @@
 import { initState } from "./state.js";
-import { setupUI } from "./ui.js";
+import { setupUI } from "./ui/ui.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	initState();
-
 	const root = document.getElementById("app");
 	setupUI(root);
 });
