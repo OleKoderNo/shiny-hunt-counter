@@ -27,8 +27,10 @@ export function setupUI(rootElement) {
     <h2 id="currentHuntTitle">No hunt selected</h2>
     <div id="countDisplay">0</div>
 
-    <button id="incrementBtn">+1</button>
-    <button id="resetBtn">Reset</button>
+    <div>
+      <button id="incrementBtn">+1</button>
+      <button id="resetBtn">Reset</button>
+    </div>
 
 		<div style="margin-top: 10px; text-align: center;">
       <button id="openPopupBtn">Open Popup Window</button>
@@ -45,11 +47,28 @@ export function setupUI(rootElement) {
 	const resetBtn = $("#resetBtn");
 	const openPopupBtn = $("#openPopupBtn");
 
+	const pokeNameEl = document.getElementById("pokeName");
+	const pokeCountEl = document.getElementById("pokeCount");
+	const pokeballEl = document.getElementById("pokeball");
+	const pokeballBtnEl = document.getElementById("pokeball-button");
+
+	const animatePokeball = () => {
+		if (pokeballBtnEl) {
+			pokeballBtnEl.classList.remove("pressed");
+			void pokeballBtnEl.offsetWidth;
+			pokeballBtnEl.classList.add("pressed");
+		}
+		if (pokeballEl) {
+			pokeballEl.classList.remove("shake");
+			void pokeballEl.offsetWidth;
+			pokeballEl.classList.add("shake");
+		}
+	};
+
 	countDisplay.setAttribute("contenteditable", "true");
 
 	countDisplay.addEventListener("keydown", (e) => {
 		const allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "Enter"];
-
 		if (allowed.includes(e.key)) {
 			if (e.key === "Enter") {
 				e.preventDefault();
@@ -57,30 +76,16 @@ export function setupUI(rootElement) {
 			}
 			return;
 		}
-
-		if (!/^[0-9]$/.test(e.key)) {
-			e.preventDefault();
-		}
+		if (!/^[0-9]$/.test(e.key)) e.preventDefault();
 	});
 
 	countDisplay.addEventListener("blur", () => {
 		let value = countDisplay.textContent.trim();
-
 		if (value === "") value = "0";
-
 		value = value.replace(/\D/g, "");
-
 		const num = Number(value);
-
 		setCurrentHuntCount(num);
 		renderCurrentHunt();
-	});
-
-	countDisplay.addEventListener("keydown", (e) => {
-		if (e.key === "Enter") {
-			e.preventDefault();
-			countDisplay.blur();
-		}
 	});
 
 	function renderHuntSelect() {
@@ -108,9 +113,7 @@ export function setupUI(rootElement) {
 		});
 
 		const current = getCurrentHunt();
-		if (current) {
-			huntSelect.value = current.id;
-		}
+		if (current) huntSelect.value = current.id;
 	}
 
 	function renderCurrentHunt() {
@@ -119,6 +122,8 @@ export function setupUI(rootElement) {
 		if (!hunt) {
 			currentHuntTitle.textContent = "No hunt selected";
 			countDisplay.textContent = "0";
+			if (pokeNameEl) pokeNameEl.textContent = "No hunt selected";
+			if (pokeCountEl) pokeCountEl.textContent = "0";
 			incrementBtn.disabled = true;
 			resetBtn.disabled = true;
 			return;
@@ -126,6 +131,8 @@ export function setupUI(rootElement) {
 
 		currentHuntTitle.textContent = hunt.name;
 		countDisplay.textContent = hunt.count;
+		if (pokeNameEl) pokeNameEl.textContent = hunt.name;
+		if (pokeCountEl) pokeCountEl.textContent = hunt.count;
 		incrementBtn.disabled = false;
 		resetBtn.disabled = false;
 	}
@@ -162,7 +169,16 @@ export function setupUI(rootElement) {
 	incrementBtn.addEventListener("click", () => {
 		incrementCurrentHunt();
 		renderCurrentHunt();
+		animatePokeball();
 	});
+
+	if (pokeballBtnEl) {
+		pokeballBtnEl.addEventListener("click", () => {
+			incrementCurrentHunt();
+			renderCurrentHunt();
+			animatePokeball();
+		});
+	}
 
 	resetBtn.addEventListener("click", () => {
 		resetCurrentHunt();
@@ -170,7 +186,7 @@ export function setupUI(rootElement) {
 	});
 
 	openPopupBtn.addEventListener("click", () => {
-		window.open("./popup.html", "shinyHuntPopup", "width=420,height=600,resizable=yes");
+		window.open("./popup.html", "shinyHuntPopup", "width=760,height=620,resizable=yes");
 	});
 
 	renderAll();

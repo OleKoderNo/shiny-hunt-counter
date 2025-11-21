@@ -9,23 +9,45 @@
 		<script type="module" src="./js/app.js"></script>
 
 		<style>
-			/* For the popup: no big background, just the card */
+			html,
 			body {
 				margin: 0;
-				background: transparent; /* good for OBS Browser Source */
-				display: flex;
-				justify-content: center;
-				align-items: center;
+				background: transparent !important;
+				background-image: none !important;
 				min-height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 			}
 
-			/* Optional: remove drop shadow in the popup if you want it super clean */
+			#popup-layout {
+				display: flex;
+				gap: 50px;
+				align-items: center;
+			}
+
 			#app {
 				box-shadow: none;
 			}
 		</style>
 	</head>
 	<body>
-		<main id="app"></main>
+		<div id="popup-layout">
+			<main id="app"></main>
+
+			<section id="pokeball-panel">
+				<div id="pokeball">
+					<div id="pokeball-top">
+						<div id="pokeName">No hunt selected</div>
+						<div id="pokeCount">0</div>
+					</div>
+
+					<div id="pokeball-midline"></div>
+					<div id="pokeball-bottom"></div>
+
+					<button id="pokeball-button" aria-label="Increment counter"></button>
+				</div>
+			</section>
+		</div>
 	</body>
 </html>
