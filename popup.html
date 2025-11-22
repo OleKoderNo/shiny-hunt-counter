@@ -2,15 +2,34 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
+
+		<!-- 
+			Ensures proper mobile scaling + prevents default zoom.
+			This popup is used inside OBS Browser Source as well.
+		-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 		<title>Shiny Hunt Counter Popup</title>
 
+		<!-- 
+			Shared styles: exact same CSS files as the main app.
+			This keeps the controller UI and Pokéball visuals consistent.
+		-->
 		<link rel="stylesheet" href="./styles/base.css" />
 		<link rel="stylesheet" href="./styles/controller.css" />
 		<link rel="stylesheet" href="./styles/pokeball.css" />
+
+		<!-- 
+			Main JS logic is identical to the main window.
+			Popup UI stays synchronized via localStorage state.
+		-->
 		<script type="module" src="./js/app.js"></script>
 
 		<style>
+			/* 
+				Popup should be fully transparent so OBS can layer it directly
+				on top of a stream without a visible background.
+			*/
 			html,
 			body {
 				margin: 0;
@@ -22,32 +41,57 @@
 				justify-content: center;
 			}
 
+			/* 
+				Horizontal layout: controller on left, Pokéball on right.
+				Spacing is intentionally wide (50px) for readability.
+			*/
 			#popup-layout {
 				display: flex;
 				gap: 50px;
 				align-items: center;
 			}
 
+			/* 
+				Remove shadow around the controller for the popup version.
+				Looks cleaner when placed on a livestream.
+			*/
 			#app {
 				box-shadow: none;
 			}
 		</style>
 	</head>
+
 	<body>
 		<div id="popup-layout">
+			<!-- 
+				The controller UI is injected dynamically from JS exactly 
+				the same way as in the main window.
+			-->
 			<main id="app"></main>
 
+			<!-- 
+				Pokéball panel stays fixed and always visible.
+				Displays:
+				- hunt name
+				- encounter count
+				- animated Pokéball graphics
+				- clickable button (+1)
+			-->
 			<section id="pokeball-panel">
 				<div id="pokeball">
 					<div id="pokeball-top">
-						<!-- <span class="love-inner-heart"></span> -->
+						<!-- Name + count rendered here via JS -->
 						<div id="pokeName">No hunt selected</div>
 						<div id="pokeCount">0</div>
 					</div>
 
+					<!-- Center band -->
 					<div id="pokeball-midline"></div>
+
+					<!-- Bottom half of the ball -->
 					<div id="pokeball-bottom"></div>
 
+					<!-- Button: also increments the counter -->
 					<button id="pokeball-button" aria-label="Increment counter"></button>
 				</div>
 			</section>
