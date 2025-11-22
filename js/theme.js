@@ -57,6 +57,50 @@ export const themes = {
 			"--ball-button-inner": "#dcdcdc",
 		},
 	},
+
+	duskball: {
+		id: "duskball",
+		label: "Dusk Ball",
+		vars: {
+			"--bg-top": "#1a1033",
+			"--bg-mid": "#0a0618",
+			"--bg-bottom": "#000000",
+
+			"--accent": "#2aa84a",
+			"--accent-hover": "#46c767",
+
+			"--reset": "#f9cf2f",
+			"--reset-hover": "#ffe272",
+
+			"--ball-top": "#1b1b1b",
+			"--ball-bottom": "#f5f5f5",
+			"--ball-midline": "#111111",
+			"--ball-button": "#f5f5f5",
+			"--ball-button-inner": "#dcdcdc",
+		},
+	},
+
+	loveball: {
+		id: "loveball",
+		label: "Love Ball",
+		vars: {
+			"--bg-top": "#ffb6d5",
+			"--bg-mid": "#ff5fa2",
+			"--bg-bottom": "#4a001f",
+
+			"--accent": "#ff3b8a",
+			"--accent-hover": "#ff73ad",
+
+			"--reset": "#ffcd38",
+			"--reset-hover": "#ffd95e",
+
+			"--ball-top": "#ff6fb2",
+			"--ball-bottom": "#f5f5f5",
+			"--ball-midline": "#111111",
+			"--ball-button": "#f5f5f5",
+			"--ball-button-inner": "#dcdcdc",
+		},
+	},
 };
 
 export function loadThemeId() {
