@@ -1,6 +1,7 @@
-/* ------------------------------------------------------------
-   BASE POKEBALL STRUCTURE
------------------------------------------------------------- */
+/* ============================================================
+   BASE POKÉBALL STRUCTURE
+   Layout, shape, and UI elements common to all ball themes.
+============================================================ */
 
 #pokeball-panel {
 	display: flex;
@@ -19,7 +20,7 @@
 	background: transparent;
 }
 
-/* Top half */
+/* ---------- Upper half of the Pokéball ---------- */
 #pokeball-top {
 	position: absolute;
 	top: 0;
@@ -38,7 +39,7 @@
 	z-index: 1;
 }
 
-/* Text inside ball */
+/* ---------- Text inside the ball (name + counter) ---------- */
 #pokeName {
 	font-family: "Press Start 2P", system-ui;
 	font-size: 0.8rem;
@@ -61,7 +62,7 @@
 	text-shadow: 0 2px 0 #000;
 }
 
-/* Bottom half */
+/* ---------- Lower half of the Pokéball ---------- */
 #pokeball-bottom {
 	position: absolute;
 	bottom: 0;
@@ -71,7 +72,7 @@
 	background: var(--ball-bottom);
 }
 
-/* Midline strip */
+/* ---------- Horizontal center band ---------- */
 #pokeball-midline {
 	position: absolute;
 	top: 50%;
@@ -83,7 +84,7 @@
 	z-index: 2;
 }
 
-/* Button */
+/* ---------- Pokéball center button ---------- */
 #pokeball-button {
 	position: absolute;
 	top: 50%;
@@ -112,7 +113,7 @@
 	border: 4px solid #111;
 }
 
-/* Button press animation */
+/* ---------- Button press feedback animation ---------- */
 #pokeball-button.pressed {
 	animation: pokeball-press 140ms ease;
 }
@@ -129,7 +130,7 @@
 	}
 }
 
-/* Shake animation */
+/* ---------- Slight shake animation for button press ---------- */
 #pokeball.shake {
 	animation: pokeball-shake 220ms ease;
 }
@@ -152,26 +153,26 @@
 	}
 }
 
-/* ------------------------------------------------------------
-   SPECIAL BALL THEMES (TOP DECALS)
------------------------------------------------------------- */
+/* ============================================================
+   SPECIAL BALL THEMES / TOP-HALF DECALS
+============================================================ */
 
-/* GREAT BALL */
+/* ============================================================
+   GREAT BALL
+   Blue top, thin black cap line, two red wings.
+============================================================ */
 :root[data-theme="greatball"] #pokeball-top {
 	background-color: #2060ff;
-	background-image: /* thin black cap strip */ linear-gradient(
-			to bottom,
-			#2060ff 0 12px,
-			transparent 12px
-		),
-		/* left red wing (big and inside the circle) */
-			radial-gradient(circle at 0% 6%, #e53935 0 58px, transparent 59px),
-		/* right red wing (big and inside the circle) */
-			radial-gradient(circle at 100% 6%, #e53935 0 58px, transparent 59px);
+	background-image: linear-gradient(to bottom, #2060ff 0 12px, transparent 12px),
+		radial-gradient(circle at 0% 6%, #e53935 0 58px, transparent 59px),
+		radial-gradient(circle at 100% 6%, #e53935 0 58px, transparent 59px);
 	background-repeat: no-repeat;
 }
 
-/* ULTRA BALL */
+/* ============================================================
+   ULTRA BALL
+   Black top with gold stripes.
+============================================================ */
 :root[data-theme="ultraball"] #pokeball-top {
 	background: linear-gradient(to bottom, #f9cf2f 0 20px, transparent 20px),
 		linear-gradient(
@@ -186,59 +187,53 @@
 	background-repeat: no-repeat;
 }
 
-/* LOVE BALL (placeholder) */
-/* LOVE BALL (solid, reliable heart) */
-/* LOVE BALL (refined heart) */
-/* LOVE BALL */
+/* ============================================================
+   LOVE BALL
+   Pink top + centered heart decal.
+============================================================ */
+
+/* Heart background */
 :root[data-theme="loveball"] #pokeball-top {
-	--love-bg: #ff6fb2; /* pink background */
+	--love-bg: #ff6fb2;
 	background: var(--love-bg) !important;
 
 	position: relative;
-	overflow: hidden; /* <<< IMPORTANT: removes extra white area */
+	overflow: hidden;
 	border-top-left-radius: 999px;
 	border-top-right-radius: 999px;
 }
 
-/* HEART using gradient-based shape */
+/* Heart shape using layered gradients */
 :root[data-theme="loveball"] #pokeball-top::before {
 	content: "";
 	position: absolute;
 	left: 50%;
-	top: 30px; /* adjust as needed */
+	top: 30px;
 	transform: translateX(-50%);
 
-	width: 70px; /* adjust size */
+	width: 70px;
 	aspect-ratio: 1;
 
-	/* Heart shape from your code */
 	--c: #ff2b7d;
 	background: radial-gradient(at 70% 31%, var(--c) 29%, #0000 30%),
 		radial-gradient(at 30% 31%, var(--c) 29%, #0000 30%),
-		conic-gradient(from -45deg at 50% 84%, var(--c) 90deg, #0000 0) bottom/100% 50% no-repeat;
+		conic-gradient(from -45deg at 50% 84%, var(--c) 90deg, #0000 0) bottom / 100% 50% no-repeat;
 
 	pointer-events: none;
 	z-index: 1;
 }
 
-/* Keep text above the heart */
+/* Prevent text from being hidden under the heart */
 :root[data-theme="loveball"] #pokeName,
 :root[data-theme="loveball"] #pokeCount {
 	position: relative;
 	z-index: 2;
 }
 
-/* ------------------------------------------------------------
-   DUSK BALL (FINAL ARC VERSION)
------------------------------------------------------------- */
-
-/* ------------------------------------------------------------
-   DUSK BALL (matches your painting)
------------------------------------------------------------- */
-
-/* ------------------------------------------------------------
-   DUSK BALL (clean accurate version)
------------------------------------------------------------- */
+/* ============================================================
+   DUSK BALL
+   Black top with green arcs and green inner glow.
+============================================================ */
 
 :root[data-theme="duskball"] #pokeball {
 	--dusk-green: #2cff52;
@@ -246,37 +241,28 @@
 
 	background-color: var(--dusk-black) !important;
 
-	background-image:
-		/* 1) BIG CENTER GREEN CIRCLE */ radial-gradient(
-			circle at 50% 50%,
-			var(--dusk-green) 0 60px,
-			transparent 61px
-		),
-		/* 2) TOP GREEN ARC */
-			radial-gradient(circle at 50% -45%, var(--dusk-green) 0 135px, transparent 136px),
-		/* 3) BOTTOM GREEN ARC */
-			radial-gradient(circle at 50% 145%, var(--dusk-green) 0 135px, transparent 136px),
-		/* 4) LEFT GREEN ARC */
-			radial-gradient(circle at -45% 50%, var(--dusk-green) 0 135px, transparent 136px),
-		/* 5) RIGHT GREEN ARC */
-			radial-gradient(circle at 145% 50%, var(--dusk-green) 0 135px, transparent 136px);
+	background-image: radial-gradient(circle at 50% 50%, var(--dusk-green) 0 60px, transparent 61px),
+		radial-gradient(circle at 50% -45%, var(--dusk-green) 0 135px, transparent 136px),
+		radial-gradient(circle at 50% 145%, var(--dusk-green) 0 135px, transparent 136px),
+		radial-gradient(circle at -45% 50%, var(--dusk-green) 0 135px, transparent 136px),
+		radial-gradient(circle at 145% 50%, var(--dusk-green) 0 135px, transparent 136px);
 
 	background-repeat: no-repeat;
 }
 
-/* remove top/bottom halves so the painted skin shows */
+/* Hide standard halves so arcs show */
 :root[data-theme="duskball"] #pokeball-top,
 :root[data-theme="duskball"] #pokeball-bottom {
 	background: transparent !important;
 }
 
-/* red middle strip */
+/* Red horizontal band */
 :root[data-theme="duskball"] #pokeball-midline {
 	background: #e40808 !important;
 	box-shadow: inset 0 3px 0 #111, inset 0 -3px 0 #111;
 }
 
-/* red button */
+/* Red button & ring */
 :root[data-theme="duskball"] #pokeball-button {
 	background: #e40808 !important;
 	border-color: #111 !important;
